@@ -1,0 +1,75 @@
+1)  Briefly describe the conceptual approach you chose! What are the trade-offs?
+Ans-> Problem breakdown:-
+	
+    1) Feature Selection and Missing values imputation:
+	-Checked the presence of missing values and droped the columns with more than 45% of missing values
+ 	-Imputed misiing values using random forest classifier and regressor
+	-Converted categorical data to one hot encoded (Build mutlicolumn_ohe_hot_encoder class)
+	-The number of columns are increased to more than 200. So applied PCA for dimension reduction.
+	 15 PCAs covers 99 percent  variance.
+	- train-test data split (80-20)
+	
+	
+    2) Checked the linear separability using single layer perceptron.By looking at the confusion matrix it is very clear that the data is not 
+	linearly separable and I have to apply certain non-linear classification technique.
+
+    3) Handeled class imbalance (class 0-> 97% & class 1-> 3%) using imblearn library in python 
+	
+    4) Checked various combination of sampling technique and model(unable to capture everything in code represented dur to some rough code 
+	structure while testing)
+	combination like - Oversampling(SMOTE) + Random forest
+			 - Oversampling(SMOTE) + Knn
+			 - Oversampling (Random) + Adaboost / Gradient boosting
+			 - Combine sampling (SOMTETomek) + Random forest
+			 - Undersampling (Random) + Random forest
+		         - Undersampling (Random) + Adaboost
+			 - Undersampling (Random) + Gradient boosting
+			
+ 
+	
+    5) Tuning models and selected the best performing model on the basis of Roc_Auc score. (learning rate 0.75 selected is only after tuning)
+
+Trade-Offs - 
+	-Due to high class imbalance the models are tend to overfit most the time.
+	-After class balance bagging algorithm are unable to perform on test data F1 score as less as 3.
+	- In most of the cases TN cases are misclassified to FN.
+	- Trade off between good model and computation power is also a important factor here.
+
+
+
+2)What's the model performance? What is the complexity? Where are the bottlenecks?
+
+Ans - Model Performance evaluation - 
+      - Roc_Auc score - current model it is 52% on test data
+      - Precision -  5.5   and Recall - 8.5
+
+Complexity - For adaboost as my final model - O(N . T). The linear dependency on T is certain as the user can select the number of trees and they are trained sequentially
+
+Bottlenecks -1) Proper methods to control class imbalance so that classifier can make a good decision boundary at the time of training.
+	     2) Choice of model which can be done by checking rach of the model on train data (My tested models - 		             adaboost,gradientboost,randomforest,svc,neural networks(2 layers).
+	     3) Due to no knowledge of business context for this data I was not able to do a lot of feature engineering.	 	
+	     4) Computation power of grid search and cross validation.
+
+
+3) If you had more time, what improvements would you make, and in what order of priority?
+
+Ans - Priority order - 
+ 		1) Train and tune Xgboost
+		2) Try ensemble models / Bagging classifier / Stacking techniques.
+      		2) Research on better methods to balance class.
+		3) Try to some business context of data, if possibe (from your end)
+
+      
+
+
+
+	 
+
+
+
+
+
+
+
+
+
